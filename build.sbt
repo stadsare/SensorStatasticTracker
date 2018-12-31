@@ -10,5 +10,6 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-sql" % sparkVersion,
   "com.github.pureconfig" %% "pureconfig" % "0.7.2",
   "org.scalatest" % "scalatest_2.10" % "1.9.1" % "test",
-  "org.scalacheck" %% "scalacheck" % "1.14.0" % "test"
+  "org.scalacheck" %% "scalacheck" % "1.14.0" % "test",
+  "log4j" % "log4j" % "1.2.14"
 )

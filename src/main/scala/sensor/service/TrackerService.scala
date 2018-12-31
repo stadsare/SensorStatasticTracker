@@ -2,6 +2,7 @@ package sensor.service
 
 import java.nio.file.{Files, Paths}
 
+import org.apache.log4j.Logger
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{avg, col, max, min}
 import sensor.conf.Configuration
@@ -12,6 +13,7 @@ import sensor.conf.Configuration
   */
 class TrackerService (conf: Configuration, inputDirPath: String) extends SparkSessionWrapper {
 
+  val logger = Logger.getLogger(this.getClass.getName)
   val humidity_col_str = "humidity"
   /*
     Method prints output stats on console
@@ -21,8 +23,10 @@ class TrackerService (conf: Configuration, inputDirPath: String) extends SparkSe
     val inputPath = Paths.get(inputDirPath)
     val delimiter = conf.delimiter
     val header = conf.header.toString
+    logger.info("Initialized required parameters")
 
     // Reading files from given path to create dataframe
+    logger.info("Reading files from given path")
     val records = spark.read
       .option("header", header)
       .option("delimiter", delimiter)
@@ -30,14 +34,17 @@ class TrackerService (conf: Configuration, inputDirPath: String) extends SparkSe
       .csv(inputPath.toFile.getAbsolutePath).cache()
 
     // Calculating the stats
+    logger.info("Calculating the primary stats")
     val noOfFilesProcessed = Files.list(inputPath).count()
     val noOfProcessedMeasurements = records.count()
     val noOfFailedMeasurements = records.filter(col(humidity_col_str).isNaN).count()
 
     // Calculating aggregate stats for given input per sensor-id
+    logger.info("Calculating the aggregate stats per sensor-id")
     val finalDf = calculateStats(records)
 
     // Printing final output stats on console
+    logger.info("Generating report")
     print(Report.generate(noOfFilesProcessed, noOfProcessedMeasurements, noOfFailedMeasurements, finalDf.collect()))
   }
 

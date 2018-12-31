@@ -1,0 +1,4 @@
+sensor-id,min,avg,max
+s2,78,82,88
+s1,10,54,98
+s3,NaN,NaN,NaN

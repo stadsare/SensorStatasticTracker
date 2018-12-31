@@ -1,6 +1,11 @@
 # SensorStatisticsTracker
 Command line program that calculates statistics from humidity sensor data.
 
+## Steps To Run
+
+This is an SBT project, you can run this on console or any IntelliJ IDE.
+SensorStatsApplication is the main class which tables input directory path as the only parameter.
+
 ## Problem Stament
 
 Create a command line program that calculates statistics from humidity sensor data.
